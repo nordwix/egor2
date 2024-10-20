@@ -4,7 +4,6 @@ public class TriangleChecker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        // Введення трьох сторін трикутника
         System.out.println("Введіть першу сторону трикутника:");
         int sideA = scanner.nextInt();
         System.out.println("Введіть другу сторону трикутника:");
@@ -12,11 +11,9 @@ public class TriangleChecker {
         System.out.println("Введіть третю сторону трикутника:");
         int sideC = scanner.nextInt();
 
-        // Перевірка на існування трикутника
         if (sideA + sideB > sideC && sideA + sideC > sideB && sideB + sideC > sideA) {
             System.out.println("Трикутник може існувати.");
 
-            // Визначення типу трикутника
             if (sideA == sideB && sideB == sideC) {
                 System.out.println("Трикутник є рівностороннім.");
             } else if (sideA == sideB || sideA == sideC || sideB == sideC) {
