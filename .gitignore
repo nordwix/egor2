@@ -1,5 +1,5 @@
 import java.util.Scanner;
-
+//TASK 1
 public class TriangleChecker {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -27,3 +27,69 @@ public class TriangleChecker {
         }
     }
 }
+//TASK 2
+
+public class SentenceCounterDoWhile {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Введіть текст:");
+        String text = scanner.nextLine();
+
+        int sentenceCount = 0;
+        int index = 0;
+
+        do {
+            if (index >= text.length()) {
+                break;
+            }
+
+            char currentChar = text.charAt(index);
+
+            if (currentChar == '.' || currentChar == '!' || currentChar == '?') {
+                sentenceCount++;
+            }
+
+            index++;
+        } while (index < text.length());
+
+        System.out.println("Кількість речень: " + sentenceCount);
+    }
+}
+//TASK 3
+public class RangeFilter {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Введіть початкове значення діапазону:");
+        int start = scanner.nextInt();
+
+        System.out.println("Введіть кінцеве значення діапазону:");
+        int end = scanner.nextInt();
+
+        int primeNumber;
+        do {
+            System.out.println("Введіть просте число від 1 до 9:");
+            primeNumber = scanner.nextInt();
+        } while (primeNumber < 1 || primeNumber > 9 || !isPrime(primeNumber));
+
+        System.out.println("Результат:");
+        for (int i = start; i <= end; i++) {
+            if (i % primeNumber == 0) {
+                continue;
+            }
+            System.out.print(i + " ");
+        }
+    }
+
+    public static boolean isPrime(int number) {
+        if (number < 2) return false;
+        for (int i = 2; i <= Math.sqrt(number); i++) {
+            if (number % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
