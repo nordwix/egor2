@@ -1,94 +1,198 @@
+#1
+public class Task1 {
+    public static void main(String[] args) {
+        int[][] pyramid = new int[5][];
+        for (int i = 0; i < pyramid.length; i++) {
+            pyramid[i] = new int[i + 1];
+            for (int j = 0; j < pyramid[i].length; j++) {
+                pyramid[i][j] = (i + 1) * 10 + j; 
+            }
+        }
+
+        System.out.println("Піраміда (звичайний порядок):");
+        for (int i = 0; i < pyramid.length; i++) {
+            for (int j = 0; j < pyramid[i].length; j++) {
+                System.out.print(pyramid[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\nПіраміда (зворотній порядок):");
+        for (int i = pyramid.length - 1; i >= 0; i--) {
+            for (int j = pyramid[i].length - 1; j >= 0; j--) {
+                System.out.print(pyramid[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+#2
+import java.util.Random;
+
+public class Task2 {
+    public static void main(String[] args) {
+        int rows = 4;
+        int cols = 4;
+        double[][] array = new double[rows][cols];
+        Random random = new Random();
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                array[i][j] = random.nextDouble() * 100; // Випадкові числа від 0 до 100
+            }
+        }
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (i % 2 != 0 || j % 2 != 0) {
+                    array[i][j] = Math.sqrt(array[i][j]);
+                }
+            }
+        }
+
+        System.out.println("Модифікований масив:");
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                System.out.printf("%.2f ", array[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
+#3
 import java.util.Scanner;
-//TASK 1
-public class TriangleChecker {
+
+public class Task3 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int size = 5;
+        int[][] matrix = new int[size][size];
 
-        System.out.println("Введіть першу сторону трикутника:");
-        int sideA = scanner.nextInt();
-        System.out.println("Введіть другу сторону трикутника:");
-        int sideB = scanner.nextInt();
-        System.out.println("Введіть третю сторону трикутника:");
-        int sideC = scanner.nextInt();
-
-        if (sideA + sideB > sideC && sideA + sideC > sideB && sideB + sideC > sideA) {
-            System.out.println("Трикутник може існувати.");
-
-            if (sideA == sideB && sideB == sideC) {
-                System.out.println("Трикутник є рівностороннім.");
-            } else if (sideA == sideB || sideA == sideC || sideB == sideC) {
-                System.out.println("Трикутник є рівнобедреним.");
-            } else {
-                System.out.println("Трикутник є різностороннім.");
+        System.out.println("Введіть елементи матриці 5x5:");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = scanner.nextInt();
             }
+        }
 
-        } else {
-            System.out.println("Трикутник не може існувати з такими сторонами.");
+        int determinant = calculateDeterminant(matrix);
+
+        System.out.println("Визначник матриці: " + determinant);
+    }
+
+    private static int calculateDeterminant(int[][] matrix) {
+        int size = matrix.length;
+        if (size == 1) {
+            return matrix[0][0];
+        }
+        if (size == 2) {
+            return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+        }
+        int determinant = 0;
+        for (int i = 0; i < size; i++) {
+            int[][] subMatrix = new int[size - 1][size - 1];
+            for (int row = 1; row < size; row++) {
+                int colIndex = 0;
+                for (int col = 0; col < size; col++) {
+                    if (col == i) continue;
+                    subMatrix[row - 1][colIndex++] = matrix[row][col];
+                }
+            }
+            determinant += Math.pow(-1, i) * matrix[0][i] * calculateDeterminant(subMatrix);
+        }
+        return determinant;
+    }
+}
+#4
+import java.util.Scanner;
+import java.util.Random;
+
+public class Task4 {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введіть розмір матриці: ");
+        int size = scanner.nextInt();
+        int[][] matrix = new int[size][size];
+        Random random = new Random();
+
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = random.nextInt(10);
+            }
+        }
+
+        System.out.println("Матриця:");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.print("Введіть номер рядка для мінору: ");
+        int row = scanner.nextInt() - 1;
+        System.out.print("Введіть номер стовпця для мінору: ");
+        int col = scanner.nextInt() - 1;
+
+        int[][] minor = new int[size - 1][size - 1];
+        for (int i = 0, mi = 0; i < size; i++) {
+            if (i == row) continue;
+            for (int j = 0, mj = 0; j < size; j++) {
+                if (j == col) continue;
+                minor[mi][mj++] = matrix[i][j];
+            }
+            mi++;
+        }
+
+        System.out.println("Мінор:");
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < size - 1; j++) {
+                System.out.print(minor[i][j] + " ");
+            }
+            System.out.println();
         }
     }
 }
-//TASK 2
+#5
+import java.util.Scanner;
+import java.util.Random;
 
-public class SentenceCounterDoWhile {
+public class Task5 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Введіть розмір матриці: ");
+        int size = scanner.nextInt();
+        int[][] matrix = new int[size][size];
+        Random random = new Random();
 
-        System.out.println("Введіть текст:");
-        String text = scanner.nextLine();
-
-        int sentenceCount = 0;
-        int index = 0;
-
-        do {
-            if (index >= text.length()) {
-                break;
-            }
-
-            char currentChar = text.charAt(index);
-
-            if (currentChar == '.' || currentChar == '!' || currentChar == '?') {
-                sentenceCount++;
-            }
-
-            index++;
-        } while (index < text.length());
-
-        System.out.println("Кількість речень: " + sentenceCount);
-    }
-}
-//TASK 3
-public class RangeFilter {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Введіть початкове значення діапазону:");
-        int start = scanner.nextInt();
-
-        System.out.println("Введіть кінцеве значення діапазону:");
-        int end = scanner.nextInt();
-
-        int primeNumber;
-        do {
-            System.out.println("Введіть просте число від 1 до 9:");
-            primeNumber = scanner.nextInt();
-        } while (primeNumber < 1 || primeNumber > 9 || !isPrime(primeNumber));
-
-        System.out.println("Результат:");
-        for (int i = start; i <= end; i++) {
-            if (i % primeNumber == 0) {
-                continue;
-            }
-            System.out.print(i + " ");
-        }
-    }
-
-    public static boolean isPrime(int number) {
-        if (number < 2) return false;
-        for (int i = 2; i <= Math.sqrt(number); i++) {
-            if (number % i == 0) {
-                return false;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                matrix[i][j] = random.nextInt(10);
             }
         }
-        return true;
+
+        System.out.println("Початкова матриця:");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        int[][] transposed = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                transposed[i][j] = matrix[j][i];
+            }
+        }
+
+        System.out.println("Транспонована матриця:");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                System.out.print(transposed[i][j] + " ");
+            }
+            System.out.println();
+        }
     }
 }
+
